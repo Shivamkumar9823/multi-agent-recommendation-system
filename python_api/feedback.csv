@@ -1,0 +1,10 @@
+User_ID,Product_ID,Feedback,Timestamp,Category
+C1009,P2141,not like it,2025-03-31 01:48:26.398577,dislike
+C1009,P2141,not like it,2025-03-31 01:50:47.678151,neutral
+C1009,P2141,not like it,2025-03-31 10:22:29.808021,dislike
+C1009,P2141,not like it,2025-03-31 22:05:35.794670,neutral
+C1009,P2141,not like it,2025-03-31 22:09:50.586666,neutral
+C1009,P2141,not like it,2025-03-31 22:31:49.583689,neutral
+C1009,P2141,not like it,2025-03-31 22:56:45.381558,dislike
+C1009,P2141,not like it,2025-03-31 23:08:49.715305,dislike
+C1009,P2141,not like it,2025-03-31 23:18:03.958344,neutral

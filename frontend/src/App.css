@@ -1,0 +1,12 @@
+.app {
+  width: 100vw;
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Ensures text inside elements is centered */
+}
+body{
+  background-color: white;
+}
