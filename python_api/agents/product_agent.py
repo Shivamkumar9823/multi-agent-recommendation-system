@@ -26,16 +26,14 @@ class ProductAgent:
            return self.recommend_popular_products()
         
         prompt = f"""
-        Based on the following user data and feedback analysis, recommend 5 personalized products from {self.product_data}:
-        Age: {customer_data['Age']}
-        Gender: {customer_data['Gender']}
-        Location: {customer_data['Location']}
-        Browsing History: {customer_data['Browsing_History']}
-        Purchase History: {customer_data['Purchase_History']}
-        Customer Segment: {customer_data['Customer_Segment']}
-        Avg Order Value: {customer_data['Avg_Order_Value']}
-        Holiday: {customer_data['Holiday']}
-        Season: {customer_data['Season']}
+        Based on the following user data and feedback analysis, recommend 15 personalized products from {self.product_data}:
+        Age: {customer_data['age']}
+        Gender: {customer_data['gender']}
+        Location: {customer_data['location']}
+        Browsing History: {customer_data['BrowsingHistory']}
+        Purchase History: {customer_data['searchHistory']}
+        Customer Segment: {customer_data['customerSegment']}
+        give only {self.product_data['Product_ID']}
         """
         
         return self.ollama_service.generate_response(prompt)
