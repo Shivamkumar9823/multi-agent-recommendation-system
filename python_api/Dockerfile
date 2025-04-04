@@ -10,8 +10,11 @@ COPY . .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Ensure the script has execution permissions
+RUN chmod +x ollama_start.sh
+
 # Expose the necessary port (e.g., 5000 for Flask/FastAPI)
 EXPOSE 5000
 
 # Run Ollama and the app using the startup script
-CMD ["./ollama_start.sh", "gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+CMD ["bash", "-c", "./ollama_start.sh && gunicorn -w 4 -b 0.0.0.0:5000 app:app"]

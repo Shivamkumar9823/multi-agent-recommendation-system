@@ -3,4 +3,8 @@ gunicorn
 requests
 flask_cors
 pandas
+ollama
+
+
+
 
