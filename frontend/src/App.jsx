@@ -68,9 +68,10 @@ useEffect(() => {
   
         console.log("Sending userdata:", userData);
   
-        const response = await axios.post("http://127.0.0.1:5001/recommend-products", {
+        const response = await axios.post("https://multi-agent-recommendation-system-1.onrender.com/recommend-products", {
           userdata: userData,
         });
+        console.log(response)
   
         console.log("Recommended Products:", response.data);
         setRecommend(response.data["Extracted Product IDs"]);

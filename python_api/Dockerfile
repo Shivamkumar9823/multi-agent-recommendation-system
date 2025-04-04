@@ -1,20 +1,23 @@
-# Use an official Python image
-FROM python:3.9
+# Use a base image with Python and Ollama installed
+FROM python:3.10
 
-# Set the working directory
+# Install curl to download Ollama
+RUN apt-get update && apt-get install -y curl
+
+# Download and install Ollama
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
+# Set the working directory inside the container
 WORKDIR /app
 
 # Copy project files
-COPY . .
+COPY . /app
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Ensure the script has execution permissions
-RUN chmod +x ollama_start.sh
+# Expose Ollama's default port (11434) and Flask's default port (5000)
+EXPOSE 11434 5000
 
-# Expose the necessary port (e.g., 5000 for Flask/FastAPI)
-EXPOSE 5000
-
-# Run Ollama and the app using the startup script
-CMD ["bash", "-c", "./ollama_start.sh && gunicorn -w 4 -b 0.0.0.0:5000 app:app"]
+# Start Ollama and then run the backend
+CMD ollama serve & python app.py
