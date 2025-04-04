@@ -4,7 +4,6 @@ FROM python:3.10
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
-    sqlite3 \
     libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/*
 
