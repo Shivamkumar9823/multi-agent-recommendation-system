@@ -105,6 +105,7 @@ def recommend_products():
     # Generate new recommendations if user data has changed or not found
     recommendations = product_agent.recommend_products(user_data)
     product_ids = extract_product_ids(recommendations)
+    print(product_ids)
 
     # Save the updated recommendation
     save_recommendation_to_db(user_hash, user_data, product_ids)
