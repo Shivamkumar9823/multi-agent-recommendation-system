@@ -4,7 +4,6 @@ requests
 flask_cors
 pandas
 ollama
-sqlite3
 
 
 

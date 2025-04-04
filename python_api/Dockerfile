@@ -1,10 +1,14 @@
-# Use a base image with Python and Ollama installed
+# Use a base image with Python
 FROM python:3.10
 
-# Install curl to download Ollama
-RUN apt-get update && apt-get install -y curl
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    sqlite3 \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Download and install Ollama
+# Install Ollama
 RUN curl -fsSL https://ollama.com/install.sh | sh
 
 # Set the working directory inside the container
@@ -16,8 +20,8 @@ COPY . /app
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose Ollama's default port (11434) and Flask's default port (5000)
+# Expose necessary ports
 EXPOSE 11434 5000
 
-# Start Ollama and then run the backend
+# Start Ollama and run the backend
 CMD ollama serve & python app.py
