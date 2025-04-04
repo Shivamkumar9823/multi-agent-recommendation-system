@@ -1,25 +1,17 @@
-# Use an Ubuntu base image with Python
-FROM ubuntu:20.04
+# Use an official Python image
+FROM python:3.9
 
-# Install dependencies
-RUN apt update && apt install -y \
-    curl python3 python3-pip python3-venv
-
-# Install Ollama
-RUN curl -fsSL https://ollama.com/install.sh | sh
-
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy your backend code
-COPY . /app
+# Copy project files
+COPY . .
 
-# Set up virtual environment
-RUN python3 -m venv venv
-RUN . venv/bin/activate && pip install -r requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port (change based on your backend)
+# Expose the necessary port (e.g., 5000 for Flask/FastAPI)
 EXPOSE 5000
 
-# Run the backend
-CMD ["bash", "-c", "ollama serve & sleep 5 && source venv/bin/activate && python api.py"]
+# Run Ollama and the app using the startup script
+CMD ["./ollama_start.sh", "gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]

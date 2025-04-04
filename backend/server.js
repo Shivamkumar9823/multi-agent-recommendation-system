@@ -64,7 +64,7 @@ app.post("/upload-json", upload.single("file"), async (req, res) => {
 
 app.get('/api/products', async (req, res) => {
   try {
-    const products = await Product.find().limit(100); // Fetch only 100 products
+    const products = await Product.find(); // Fetch only 100 products
     // console.log(products);
     res.json(products); // Send product data as a response
   } catch (error) {

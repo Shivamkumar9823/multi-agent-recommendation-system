@@ -10,6 +10,7 @@ function App() {
   const [error, setError] = useState(null);
   const [cart, setCart] = useState([]);
   const [userdata, setUserdata]  = useState({});
+  const [allproduct,setAllproduct] = useState([]);
   
 
 
@@ -18,7 +19,9 @@ useEffect(() => {
     axios
       .get("http://localhost:3000/api/products") // Change the API URL if needed
       .then((response) => {
-        setProducts(response.data);
+        const limitedProducts = response.data.slice(0, 100); // Take only the first 100 products
+        setAllproduct(response.data);
+        setProducts(limitedProducts);
         setLoading(false);
       })
       .catch((error) => {
@@ -32,6 +35,7 @@ useEffect(() => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [recommend, setRecommend] = useState([]);
 
 
   useEffect(() => {
@@ -69,6 +73,7 @@ useEffect(() => {
         });
   
         console.log("Recommended Products:", response.data);
+        setRecommend(response.data["Extracted Product IDs"]);
       } catch (error) {
         console.error("Error fetching recommendations:", error);
       }
@@ -76,6 +81,8 @@ useEffect(() => {
   
     fetchUserData();
   }, []);
+
+  console.log("Recommend: ",recommend)
   
   
 
@@ -123,28 +130,12 @@ useEffect(() => {
 
   
 
-  const trackSearch = async (query) => {
-    const userId = localStorage.getItem("userId"); // Get stored user ID
   
-    if (!userId || !query.trim()) return; // Skip if no user or empty search
-    console.log(query);
-    console.log("useriiddd :",userId);
-  
-    try {
-      await axios.post("http://localhost:3000/api/track-search", {
-        userId,
-        query,
-      });
-    }catch (error) {
-      console.error("Error tracking search:", error);
-    }
-  };
 
   
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    trackSearch(e.target.value);
-
+   
   };
 
   // Get trending products
@@ -161,8 +152,11 @@ useEffect(() => {
         ) : error ? (
           <ErrorState message={error} />
         ) : (
-          <>
-            {/* <TrendingProducts products={trendingProducts} /> */}
+          <> {recommend.length !==0 ?
+             (
+            <RecommendedProducts products={allproduct} addToCart={addToCart} recommendedProducts ={recommend} />
+            ):<></>
+           }
             <AllProducts products={filteredProducts} addToCart={addToCart} />
           </>
         )}
@@ -257,6 +251,34 @@ function Navbar({ onSearchChange, searchTerm }) {
     }
   };
 
+
+  const trackSearch = async (query) => {
+    const userId = localStorage.getItem("userId"); // Get stored user ID
+  
+    if (!userId || !query.trim()) return; // Skip if no user or empty search
+    console.log(query);
+    console.log("useriiddd :",userId);
+  
+    try {
+      await axios.post("http://localhost:3000/api/track-search", {
+        userId,
+        query,
+      });
+    }catch (error) {
+      console.error("Error tracking search:", error);
+    }
+  };
+
+
+
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault(); // Prevent page reload
+    console.log("Submitted Search Term:", searchTerm); // Log or use the search term
+    trackSearch(searchTerm);
+    // Pass value to parent component if needed
+  };
+
   
 
   return (
@@ -264,15 +286,15 @@ function Navbar({ onSearchChange, searchTerm }) {
       <nav className="navbar">
         <div className="navbar-container">
           <a href="/" className="navbar-logo">ShopEasy</a>
-          <div className="search-bar">
-            <input 
-              type="text" 
-              placeholder="Search products..." 
+          <form onSubmit={handleSearchSubmit} className="search-bar">
+            <input
+              type="text"
+              placeholder="Search products..."
               value={searchTerm}
               onChange={onSearchChange}
             />
-            <button type="submit">Search</button>
-          </div>
+           <button type="submit">Search</button>
+         </form>
           <ul className="nav-menu">
             <li className="nav-item"><a href="/" className="nav-link">Home</a></li>
             <li className="nav-item"><a href="/categories" className="nav-link">Categories</a></li>
@@ -309,6 +331,36 @@ function Navbar({ onSearchChange, searchTerm }) {
 }
 
 
+
+
+function RecommendedProducts({ products, addToCart, recommendedProducts  = []  }) {
+  console.log("Recomme",recommendedProducts)
+  const filteredProducts = products.filter(product =>  recommendedProducts.length > 0 && recommendedProducts?.includes(product.Product_ID));
+  return (
+    <section className="all-products-section">
+       <div className="section-header">
+         <h2>Recommended Products</h2>
+         </div>
+      {filteredProducts.length === 0 ? (
+        <p className="no-results">No recommended products found.</p>
+      ) : (
+        <div className="products-grid">
+          {filteredProducts.map(product => (
+            <ProductCard key={product.id} product={product} addToCart={addToCart} />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+
+
+
+
+
+
+
 function HeroSection() {
   return (
     <section className="hero-section">
@@ -334,12 +386,15 @@ function TrendingProducts({ products }) {
       </div>
       <div className="products-grid">
         {products.map(product => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} addToCart={addToCart}/>
         ))}
       </div>
     </section>
   );
 }
+
+
+
 
 function AllProducts({ products,addToCart }) {
   const [sortOption, setSortOption] = useState("");
@@ -386,6 +441,8 @@ function AllProducts({ products,addToCart }) {
     </section>
   );
 }
+
+
 
 function ProductCard({ product, addToCart }) {
   // Handle potential missing data or format issues

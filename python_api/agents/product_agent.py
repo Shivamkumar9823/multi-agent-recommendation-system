@@ -26,7 +26,7 @@ class ProductAgent:
            return self.recommend_popular_products()
         
         prompt = f"""
-        Based on the following user data and feedback analysis, recommend 15 personalized products from {self.product_data}:
+        Based on the following user data such as Age , Gender, Purchase History, BrowsingHistory and feedback analysis, recommend 15 personalized products from {self.product_data}:
         Age: {customer_data['age']}
         Gender: {customer_data['gender']}
         Location: {customer_data['location']}
