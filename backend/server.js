@@ -104,12 +104,12 @@ app.use('/api/cart',cartRoutes);
 app.use('/api/track-search',trackRoute);
 
 
-// app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
 
 
-module.exports = app;
+// module.exports = app;
 
 
 
