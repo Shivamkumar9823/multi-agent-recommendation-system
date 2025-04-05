@@ -41,7 +41,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/users/profile", {
+        const response = await axios.get("https://multi-agent-recommendation-system.onrender.com/api/profile", {
           headers: {
             "Content-Type": "application/json",
             "userId": localStorage.getItem("userId"), // Fetch userId from local storage
@@ -286,7 +286,7 @@ function Navbar({ onSearchChange, searchTerm }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://multi-agent-recommendation-system.onrender.com//api/users/register", {
+      const response = await fetch("https://multi-agent-recommendation-system.onrender.com/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
