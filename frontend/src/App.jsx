@@ -76,7 +76,7 @@ useEffect(() => {
         console.log(response)
   
         console.log("Recommended Products:", response.data);
-        setRecommend(response.data["Extracted Product IDs"]);
+        // setRecommend(response.data["Extracted Product IDs"]);
       } catch (error) {
         console.error("Error fetching recommendations:", error);
       }
