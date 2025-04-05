@@ -137,7 +137,7 @@ app.get('/api/profile',  async (req, res) => {
 
 app.get('/recommendations/:userId', async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = "67f0f6cc52e2ef3317b01b37";
     const recommendation = await Recommendation.findOne({ userId });
 
     if (!recommendation) {
