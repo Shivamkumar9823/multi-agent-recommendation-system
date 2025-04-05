@@ -17,7 +17,7 @@ function App() {
 useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:3000/api/products") // Change the API URL if needed
+      .get("https://multi-agent-recommendation-system.onrender.com/api/products") // Change the API URL if needed
       .then((response) => {
         const limitedProducts = response.data.slice(0, 100); // Take only the first 100 products
         setAllproduct(response.data);
@@ -286,7 +286,7 @@ function Navbar({ onSearchChange, searchTerm }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/api/users/register", {
+      const response = await fetch("https://multi-agent-recommendation-system.onrender.com//api/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -319,7 +319,7 @@ function Navbar({ onSearchChange, searchTerm }) {
     console.log("useriiddd :",userId);
   
     try {
-      await axios.post("http://localhost:3000/api/track-search", {
+      await axios.post("https://multi-agent-recommendation-system.onrender.com/api/track-search", {
         userId,
         query,
       });
