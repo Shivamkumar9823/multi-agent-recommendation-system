@@ -98,17 +98,18 @@ app.get('/api/products', async (req, res) => {
 
 
 
-
 app.use('/api/users', userRoutes);
 // app.use('/api/products', productRoutes);
 app.use('/api/cart',cartRoutes);
 app.use('/api/track-search',trackRoute);
 
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server is running on http://localhost:${port}`);
+// });
 
+
+module.exports = app;
 
 
 
