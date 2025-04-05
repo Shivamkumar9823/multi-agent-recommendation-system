@@ -1,0 +1,56 @@
+# Node.js
+node_modules/
+.env
+.env.local
+dist/
+build/
+logs
+*.log
+npm-debug.log*
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
+
+# React
+*.env
+*.env.*.local
+build/
+
+# Uploads/temp files
+uploads/
+*.zip
+*.tar
+*.tgz
+*.bak
+
+# MongoDB local database dumps
+dump/
+
+# Coverage reports
+coverage/
+
+# OS generated files
+Thumbs.db
+
+# IDEs
+.idea/
+*.iml
+
+# Database credentials (if any)
+*.sqlite
+*.db
+
+# TypeScript
+*.tsbuildinfo
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

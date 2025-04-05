@@ -146,6 +146,7 @@ useEffect(() => {
     <div className="App">
       <Navbar onSearchChange={handleSearchChange} searchTerm={searchTerm} />
       <main>
+        {/* <JsonUploader/> */}
         <HeroSection />
         
         {loading ? (
@@ -186,6 +187,63 @@ function ErrorState({ message }) {
     </div>
   );
 }
+
+
+function JsonUploader(){
+  const [file, setFile] = useState(null);
+  const [message, setMessage] = useState("");
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+
+    if (!file) {
+      setMessage("❗Please select a JSON file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("http://localhost:3000/upload-json", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setMessage("✅ " + result.message);
+      } else {
+        setMessage("❌ " + (result.error || "Upload failed."));
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      setMessage("❌ Error uploading file.");
+    }
+  };
+
+  return (
+    <div style={{ padding: "30px", fontFamily: "Arial" }}>
+      <h2>Upload JSON File</h2>
+      <form onSubmit={handleUpload}>
+        <input type="file" accept=".json" onChange={handleFileChange} />
+        <br />
+        <button type="submit" style={{ marginTop: "15px" }}>
+          Upload
+        </button>
+      </form>
+      {message && <p style={{ marginTop: "15px" }}>{message}</p>}
+    </div>
+  );
+};
+
+
+
 
 
 
