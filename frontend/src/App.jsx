@@ -85,8 +85,7 @@ useEffect(() => {
     fetchUserData();
   }, []);
 
-  console.log("Recommend: ",recommend);
-
+ 
 
 
   useEffect(() => {
@@ -97,6 +96,8 @@ useEffect(() => {
         setUserId(storedUserId);
         const response = await axios.get(`https://multi-agent-recommendation-system.onrender.com/recommendations/${userId}`);
         setRecommend(response.data.productIds || []);
+        console.log("Recommend: ",recommend);
+
       } catch (error) {
         console.error("Failed to fetch recommended products:", error);
       }
