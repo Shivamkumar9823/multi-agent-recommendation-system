@@ -11,6 +11,8 @@ import UserModel from "./models/userModel.js";
 import cartRoutes from './routes/cartRoutes.js';
 import trackRoute from './routes/trackRoute.js';
 import bcrypt from 'bcryptjs';
+import Recommendation from './models/Recommendation.js';
+
 
 
 
@@ -130,10 +132,45 @@ app.get('/api/profile',  async (req, res) => {
     console.error("Error fetching user data:", error);
     res.status(500).json({ message: "Failed to fetch user data" });
   }
-}         )
+})
 
 
+app.get('/recommendations/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const recommendation = await Recommendation.findOne({ userId });
 
+    if (!recommendation) {
+      return res.status(404).json({ message: 'No recommendations found for this user.' });
+    }
+
+    res.json({ productIds: recommendation.productIds });
+  } catch (error) {
+    console.error('Error fetching recommendations:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/recommendations', async (req, res) => {
+  const { userId, productIds } = req.body;
+
+  if (!userId || !productIds || !Array.isArray(productIds)) {
+    return res.status(400).json({ message: 'Invalid data. userId and productIds are required.' });
+  }
+
+  try {
+    const recommendation = await Recommendation.findOneAndUpdate(
+      { userId },
+      { productIds },
+      { new: true, upsert: true } // Create new if doesn't exist
+    );
+
+    res.status(200).json({ message: 'Recommendations saved successfully', recommendation });
+  } catch (error) {
+    console.error('Error saving recommendation:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
   
 
 

@@ -36,6 +36,8 @@ useEffect(() => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [recommend, setRecommend] = useState([]);
+  const [userId, setUserId] = useState(null);
+
 
 
   useEffect(() => {
@@ -83,7 +85,27 @@ useEffect(() => {
     fetchUserData();
   }, []);
 
-  console.log("Recommend: ",recommend)
+  console.log("Recommend: ",recommend);
+
+
+
+  useEffect(() => {
+
+    const fetchRecommendedProducts = async () => {
+      try {
+        const storedUserId = localStorage.getItem("userId");
+        setUserId(storedUserId);
+        const response = await axios.get(`https://multi-agent-recommendation-system.onrender.com/recommendations/${userId}`);
+        setRecommend(response.data.productIds || []);
+      } catch (error) {
+        console.error("Failed to fetch recommended products:", error);
+      }
+    };
+
+    if (userId) {
+      fetchRecommendedProducts();
+    }
+  }, [userId]);
   
   
 
