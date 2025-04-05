@@ -9,7 +9,9 @@ import fs from "fs";
 import Product from "./models/productModel.js";
 import UserModel from "./models/userModel.js";
 import cartRoutes from './routes/cartRoutes.js';
-import trackRoute from './routes/trackRoute.js'
+import trackRoute from './routes/trackRoute.js';
+import bcrypt from 'bcryptjs';
+
 
 
 const app = express();
@@ -86,6 +88,7 @@ app.get('/api/products', async (req, res) => {
 
 
 app.post('/api/register',  async (req, res) => {
+  console.log("Incoming request:", req.body);
   const { username, password, age, gender, location } = req.body;
 
   try {
@@ -131,7 +134,7 @@ app.get('/api/profile',  async (req, res) => {
 
 
 
-
+  
 
 
 

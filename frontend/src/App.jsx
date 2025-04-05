@@ -286,17 +286,22 @@ function Navbar({ onSearchChange, searchTerm }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://multi-agent-recommendation-system.onrender.com/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/register",
+        {
+          ...formData,
+          age: parseInt(formData.age), // ensure age is a number
+        }, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      const data = await response.json();
+      const data = await response.data;
       console.log("data", data);
-      if (response.ok) {
+      if (response.status === 201) {
         alert("Registration Successful!");
         localStorage.setItem("userId", data.userId);
         setShowRegister(false);
