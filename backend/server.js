@@ -26,7 +26,7 @@ connectDB();
 // Middleware to parse JSON
 app.use(express.json());
 app.use(cors({ 
-  origin: ['http://localhost:5173', 'https://aiagentfrontend-steel.vercel.app/' ], 
+  origin: ['http://localhost:5173', 'https://aiagentfrontend-steel.vercel.app' ], 
   credentials: true 
 }));
 
